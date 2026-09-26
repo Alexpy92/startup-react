@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 // Importación de componentes reutilizables
 import { Button } from './components/Button';
 import { Counter } from './components/Counter';
-import { OldCounter } from './components/OldCounter';
 import { Greeting } from './components/Greeting';
 import { Clock } from './components/Clock';
 import { ItemList } from './components/ItemList';
@@ -62,7 +61,7 @@ function App() {
             {/* Contador basado en estado (useState) */}
             <Counter />
             {/* Contador legacy basado en clase de React */}
-            <OldCounter />
+            {/* <OldCounter /> */}
             {/* Lista con renderizado iterativo (.map) */}
             <ItemList items={sampleItems} />
             {/* Consumo de API asíncrona mediante fetch */}
