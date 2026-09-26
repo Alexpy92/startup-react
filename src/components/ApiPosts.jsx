@@ -1,66 +1,44 @@
 import { useState, useEffect } from 'react';
 
 export function ApiPosts() {
-    
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
-    
     useEffect(() => {
-    
-    const fetchPosts = async () => {
-        try {
-        
-        
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-        
-        
-        
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-
-        
-        
-        const data = await response.json();
-        
-        
-        
-        setPosts(data.slice(0, 10));
-        } catch (err) {
-        
-        
-        setError(err.message);
-        } finally {
-        
-        
+    // Petición HTTP usando la sintaxis estándar de .then()
+    fetch('https://jsonplaceholder.typicode.com/posts?_limit=10')
+        .then(response => response.json())
+        .then(data => {
+        setPosts(data);
         setLoading(false);
-        }
-    };
-
-    fetchPosts();
+        })
+        .catch(error => {
+        console.error("Error al cargar la API:", error);
+        setLoading(false);
+        });
     }, []);
-    
-    if (loading) {
-    return <p>Cargando posts de la API...</p>;
-    }
 
-    if (error) {
-    return <p style={{ color: 'red' }}>Error: {error}</p>;
+    if (loading) {
+    return <p>Cargando publicaciones...</p>;
     }
 
     return (
-    <div style={{ margin: '15px 0' }}>
+    <div style={{ marginTop: '20px' }}>
         <h3>Publicaciones (API JSONPlaceholder)</h3>
+        {posts.length === 0 ? (
+        <p>No se encontraron publicaciones.</p>
+        ) : (
         <ul>
-        
-        {posts.map((post) => (
-            <li key={post.id}>
-            <strong>{post.title}</strong>
+            {posts.map(post => (
+            <li key={post.id} style={{ marginBottom: '10px' }}>
+                <strong>{post.title}</strong>
+                <p style={{ margin: '5px 0', fontSize: '14px', color: '#444' }}>
+                {post.body}
+                </p>
             </li>
-        ))}
+            ))}
         </ul>
+        )}
     </div>
     );
 }
